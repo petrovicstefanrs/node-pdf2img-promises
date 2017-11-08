@@ -1,25 +1,24 @@
-# node-pdf2img
+# node-pdf2img-promises
 
-A nodejs module for converting pdf into image file
+A Node.js module for converting a pdf into an image file, using Promises.
+This module is based on [pdf2img](https://github.com/fitraditya/node-pdf2img) by [Fitra Aditya](https://github.com/fitraditya)
 
 ## Dependencies
 - GraphicsMagick
 
-Note: Windows users, please be sure GraphicsMagick and Ghostscript are installed (see https://stackoverflow.com/questions/18733695/cimg-error-gm-exe-is-not-recognized-as-an-internal-or-external-command/45783910#45783910 for details) - then it works fine on Windows.
-
 ## Installation
 ```
-  $ [sudo] npm install pdf2img
+  $ npm install pdf2img-promises
 ```
 
 ## Usage
 
 ```javascript
-var fs      = require('fs');
-var path    = require('path');
-var pdf2img = require('pdf2img');
+const fs      = require('fs');
+const path    = require('path');
+const pdf2img = require('pdf2img');
 
-var input   = __dirname + '/test.pdf';
+let input   = __dirname + '/test.pdf';
 
 pdf2img.setOptions({
   type: 'png',                                // png or jpg, default jpg
@@ -30,10 +29,13 @@ pdf2img.setOptions({
   page: null                                  // convert selected page, default null (if null given, then it will convert all pages)
 });
 
-pdf2img.convert(input, function(err, info) {
-  if (err) console.log(err)
-  else console.log(info);
-});
+pdf2img.convert(input)
+  .then(info => {
+    console.log(info);
+  })
+  .catch(err => {
+    console.error(err);
+  })
 ```
 
 It will return array of splitted and converted image files.
@@ -56,9 +58,9 @@ It will return array of splitted and converted image files.
 ```
 
 ## Maintainer
-[Fitra Aditya][0]
+[Jon Ribeiro][0]
 
 ## License
 MIT
 
-[0]: https://github.com/fitraditya
+[0]: https://github.com/jonathas
