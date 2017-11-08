@@ -1,5 +1,7 @@
 # node-pdf2img-promises
 
+[![Build Status](https://travis-ci.org/jonathas/node-pdf2img-promises.svg?branch=master)](https://travis-ci.org/jonathas/node-pdf2img-promises)
+
 A Node.js module for converting a pdf into an image file, using Promises.
 This module is based on [pdf2img](https://github.com/fitraditya/node-pdf2img) by [Fitra Aditya](https://github.com/fitraditya)
 
