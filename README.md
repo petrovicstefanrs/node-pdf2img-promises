@@ -58,6 +58,10 @@ It will return array of splitted and converted image files.
 ## Maintainer
 [Fitra Aditya][0]
 
+## TODO in this fork (Added by Jon Ribeiro)
+- Remove async dependency with the use of async/await
+- Transform callbacks to promises
+
 ## License
 MIT
 
