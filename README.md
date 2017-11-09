@@ -19,7 +19,7 @@ This module is based on [pdf2img](https://github.com/fitraditya/node-pdf2img) by
 ```javascript
 const fs      = require('fs');
 const path    = require('path');
-const pdf2img = require('pdf2img');
+const pdf2img = require('pdf2img-promises');
 
 let input   = __dirname + '/test.pdf';
 
