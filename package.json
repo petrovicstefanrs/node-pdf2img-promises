@@ -14,6 +14,7 @@
     },
     "devDependencies": {
         "chai": "^2.0.0",
+        "istanbul": "^1.0.0-alpha.2",
         "mocha": "^2.1.0"
     },
     "bugs": {
@@ -21,7 +22,7 @@
     },
     "main": "index.js",
     "scripts": {
-        "test": "./node_modules/.bin/mocha --reporter spec"
+        "test": "istanbul cover node_modules/mocha/bin/_mocha"
     },
     "keywords": [
         "pdf to image",
