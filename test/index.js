@@ -8,12 +8,14 @@ let pdf2img = require('../index.js');
 const mkdir = util.promisify(fs.mkdir);
 const rmdir = util.promisify(fs.rmdir);
 const unlink = util.promisify(fs.unlink);
-const readDir = util.promisify(fs.readdir);
+const readdir = util.promisify(fs.readdir);
+const writeFile = util.promisify(fs.writeFile);
 console.error = () => null;
 
 const input = `${__dirname}${path.sep}test.pdf`;
 const testDir = `${__dirname}${path.sep}testdir.pdf`;
 const outputDir = `${__dirname}${path.sep}output`;
+const fakeFile = `${__dirname}${path.sep}fake.pdf`;
 
 pdf2img.setOptions({
     outputdir: outputDir,
@@ -95,14 +97,21 @@ describe('# Pdf2Img', function() {
             .catch(err => chai.expect(err.message).to.equal('Input file not found.'));
     });
 
+    it('should throw an error when trying to get the number of pages of a fake file', () => {
+        return writeFile(fakeFile, 'Hello there, I am not really a pdf file', 'utf8')
+            .then(() => pdf2img.convert(fakeFile))
+            .catch(err => chai.expect(err.message).to.contain('Command failed'));
+    });
+
     after(() => {
         return rmdir(testDir)
             .then(() => {
-                return readDir(outputDir).then(files => {
+                return readdir(outputDir).then(files => {
                     let promises = files.map(file => unlink(`${outputDir}${path.sep}${file}`));
                     return Promise.all(promises);
                 });
             })
-            .then(() => rmdir(outputDir));
+            .then(() => rmdir(outputDir))
+            .then(() => unlink(fakeFile));
     });
 });
