@@ -1,13 +1,22 @@
 let fs = require('fs');
+let util = require('util');
 let path = require('path');
-require('chai').expect();
-require('chai').should();
+const chai = require('chai');
+chai.expect();
+chai.should();
 let pdf2img = require('../index.js');
+const mkdir = util.promisify(fs.mkdir);
+const rmdir = util.promisify(fs.rmdir);
+const unlink = util.promisify(fs.unlink);
+const readDir = util.promisify(fs.readdir);
+console.error = () => null;
 
-let input = `${__dirname}${path.sep}test.pdf`;
+const input = `${__dirname}${path.sep}test.pdf`;
+const testDir = `${__dirname}${path.sep}testdir.pdf`;
+const outputDir = `${__dirname}${path.sep}output`;
 
 pdf2img.setOptions({
-    outputdir: `${__dirname}${path.sep}output`,
+    outputdir: outputDir,
     outputname: 'test'
 });
 
@@ -66,5 +75,34 @@ describe('# Pdf2Img', function() {
                 info.result.should.equal('success');
                 checkSingleMessage(info, 2, 'png');
             });
+    });
+
+    it('should throw an error on invalid input path', () => {
+        return pdf2img.convert('').catch(err => {
+            chai.expect(err.message).to.equal('Invalid input file path.');
+        });
+    });
+
+    it('should throw an error on unsupported file type', () => {
+        return pdf2img.convert(`${__dirname}${path.sep}index.js`).catch(err => {
+            chai.expect(err.message).to.equal('Unsupported file type.');
+        });
+    });
+
+    it('should throw an error when the input file is not a file', () => {
+        return mkdir(testDir)
+            .then(() => pdf2img.convert(testDir))
+            .catch(err => chai.expect(err.message).to.equal('Input file not found.'));
+    });
+
+    after(() => {
+        return rmdir(testDir)
+            .then(() => {
+                return readDir(outputDir).then(files => {
+                    let promises = files.map(file => unlink(`${outputDir}${path.sep}${file}`));
+                    return Promise.all(promises);
+                });
+            })
+            .then(() => rmdir(outputDir));
     });
 });
