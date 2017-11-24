@@ -103,6 +103,11 @@ describe('# Pdf2Img', function() {
             .catch(err => chai.expect(err.message).to.contain('Command failed'));
     });
 
+    it('should get a new instance of the pdf2img class', () => {
+        let newInstance = pdf2img.getNewInstance();
+        chai.expect(newInstance.options.outputname).to.not.equal('test');
+    });
+
     after(() => {
         return rmdir(testDir)
             .then(() => {
