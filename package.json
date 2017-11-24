@@ -1,6 +1,6 @@
 {
     "name": "pdf2img-promises",
-    "version": "0.6.1",
+    "version": "0.6.2",
     "description": "A Node.js module for converting a pdf into an image file, using Promises",
     "author": "Jon Ribeiro <contact@jonathas.com>",
     "license": "MIT",
