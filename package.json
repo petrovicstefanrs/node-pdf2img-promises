@@ -10,7 +10,8 @@
         "url": "https://github.com/jonathas/node-pdf2img-promises.git"
     },
     "dependencies": {
-        "gm": "^1.17.0"
+        "gm": "^1.17.0",
+        "mime": "^2.0.3"
     },
     "devDependencies": {
         "chai": "^2.0.0",
