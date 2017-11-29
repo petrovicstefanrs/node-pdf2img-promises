@@ -37,7 +37,7 @@ let fileName = 'test';
 
 let converter = new Pdf2Img();
 
-// The event emitter is emiting to the file name
+// The event emitter is emitting to the file name
 converter.on(fileName, (msg) => {
     console.log('Received: ', msg);
 });
